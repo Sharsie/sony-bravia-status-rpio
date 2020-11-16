@@ -1,0 +1,17 @@
+/bin
+/.env
+
+# Do not track IDE files
+# Netbeans
+nbproject
+*.netbeans*
+#PHPStorm
+.idea
+# Visual Studio Code
+.vscode
+
+# Desktop files
+.DS_Store
+desktop.ini
+.icloud
+*.icloud

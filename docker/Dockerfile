@@ -1,0 +1,11 @@
+ARG FROM_IMAGE
+FROM $FROM_IMAGE
+
+RUN apk --no-cache add ca-certificates
+
+ARG ARCH
+ARG OS
+ARG APP_NAME
+COPY $ARCH/$OS/$APP_NAME /app
+
+ENTRYPOINT ["/app"]
