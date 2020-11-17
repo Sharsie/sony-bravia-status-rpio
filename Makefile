@@ -48,14 +48,11 @@ build-arm32v7: clean build-arm32v7/is-on
 
 release/%:
 	@docker build \
-		--build-arg ALPINE_IMAGE=alpine:3.12 \
-		--build-arg BUILD_IMAGE=golang:1.15.5 \
-		--build-arg GOOS=linux \
-		--build-arg GOARCH=amd64 \
 		--build-arg DOCKER_TAG=$(VERSION) \
 		--build-arg COMMAND=$* \
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION) \
+		-f $(BUILD_DIR)/docker/linux/amd64/Dockerfile \
 		.
 	@docker tag $(REGISTRY)/$(APP_NAME)-$*:$(VERSION) $(REGISTRY)/$(APP_NAME)-$*:latest
 	@docker push $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)
@@ -63,15 +60,11 @@ release/%:
 
 release-arm32v7/%:
 	@docker build \
-		--build-arg ALPINE_IMAGE=arm32v7/alpine:3.12 \
-		--build-arg BUILD_IMAGE=arm32v7/golang:1.15.5 \
-		--build-arg GOOS=linux \
-		--build-arg GOARCH=arm \
-		--build-arg GOARM=7 \
 		--build-arg DOCKER_TAG=$(VERSION) \
 		--build-arg COMMAND=$* \
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7 \
+		-f $(BUILD_DIR)/docker/linux/arm32v7/Dockerfile \
 		.
 	@docker tag $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7 $(REGISTRY)/$(APP_NAME)-$*:latest-arm32v7
 	@docker push $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7
