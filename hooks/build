@@ -1,0 +1,4 @@
+#!/bin/bash
+
+BUILD_TIME=$(date '+%s')
+docker build -t $IMAGE_NAME --build-arg COMMAND=$COMMAND --build-arg VERSION=$DRONE_TAG --build-arg BUILD_TIME=$BUILD_TIME .

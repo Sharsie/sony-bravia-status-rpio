@@ -48,7 +48,10 @@ build-arm32v7: clean build-arm32v7/is-on
 
 release/%:
 	@docker build \
-		--build-arg DOCKER_TAG=$(VERSION) \
+		--build-arg VERSION=$(VERSION) \
+		--build-arg COMMIT_HASH=$(GIT_HASH) \
+		--build-arg REPO_URL=https://github.com/Sharsie/$(APP_NAME) \
+		--build-arg BUILD_TIME=$(BUILD_TIME) \
 		--build-arg COMMAND=$* \
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION) \
@@ -60,7 +63,7 @@ release/%:
 
 release-arm32v7/%:
 	@docker build \
-		--build-arg DOCKER_TAG=$(VERSION) \
+		--build-arg VERSION=$(VERSION) \
 		--build-arg COMMAND=$* \
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7 \

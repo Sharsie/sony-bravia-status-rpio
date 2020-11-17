@@ -14,11 +14,13 @@ import (
 )
 
 func main() {
+	l := logger.Log{}
+
 	if version.Tag != "" {
 		fmt.Printf("Running version %s\n", version.Tag)
-	}
 
-	l := logger.Log{}
+		l.Debug("Built at %s from commit hash '%s'", version.BuildTime, version.Commit)
+	}
 
 	var tvStatusPin rpio.Pin
 

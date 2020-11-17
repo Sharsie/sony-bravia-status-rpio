@@ -5,9 +5,9 @@ RUN apk --no-cache add ca-certificates
 
 
 FROM arm32v7/golang:1.15.5 as build
-ARG APP_NAME
 
-WORKDIR /go/src/github.com/Sharsie/tv-status-rpio/
+ARG APP_NAME
+WORKDIR /go/src/github.com/Sharsie/$APP_NAME/
 
 COPY ["./cmd", "./cmd"]
 COPY ["./go.mod", "./go.mod"]
@@ -17,11 +17,16 @@ ENV GOOS=linux
 ENV GOARCH=arm
 ENV GOARM=7
 ARG COMMAND
-ARG DOCKER_TAG
-
+ARG VERSION
+ARG COMMIT_HASH
+ARG REPO_URL
 
 RUN CGO_ENABLED=0 go build -mod readonly -ldflags "-s -w \
-    		-X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.Tag=$DOCKER_TAG" -o ./bin/$COMMAND ./cmd/$COMMAND
+    -X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.Tag=$VERSION \
+    -X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.Commit=$COMMIT_HASH \
+    -X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.buildTime=$BUILD_TIME \
+    -X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.repoUrl=$REPO_URL" -o ./bin/$COMMAND ./cmd/$COMMAND
+
 
 FROM scratch
 
