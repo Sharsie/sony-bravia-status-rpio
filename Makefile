@@ -57,7 +57,9 @@ release/%:
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION) \
 		.
+	@docker tag $(REGISTRY)/$(APP_NAME)-$*:$(VERSION) $(REGISTRY)/$(APP_NAME)-$*:latest
 	@docker push $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)
+	@docker push $(REGISTRY)/$(APP_NAME)-$*:latest
 
 release-arm32v7/%:
 	@docker build \
@@ -71,7 +73,9 @@ release-arm32v7/%:
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7 \
 		.
+	@docker tag $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7 $(REGISTRY)/$(APP_NAME)-$*:latest-arm32v7
 	@docker push $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7
+	@docker push $(REGISTRY)/$(APP_NAME)-$*:latest-arm32v7
 
 
 release: release/is-on
