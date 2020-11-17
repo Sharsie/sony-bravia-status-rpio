@@ -63,13 +63,16 @@ func main() {
 
 				failedStatusChecks += 1
 				if config.SwitchOffFailedAttemptsThreshold > 0 && tvStatusPin > 0 && failedStatusChecks >= config.SwitchOffFailedAttemptsThreshold {
-					// Switch off the pin if we cannot reach the TV (completely switched off for example)
-					tvStatusPin.Low()
 					l.Debug(
 						"Received %d failed status checks, keeping the GPIO pin number %d off",
 						failedStatusChecks,
 						tvStatusPin,
 					)
+
+					if tvStatusPin.Read() != rpio.Low {
+						// Switch off the pin if we cannot reach the TV (completely switched off for example)
+						tvStatusPin.Low()
+					}
 				}
 				break
 			}
