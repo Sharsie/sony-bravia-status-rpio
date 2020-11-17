@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/Sharsie/tv-status-rpio/cmd/is-on/config"
 	"github.com/Sharsie/tv-status-rpio/cmd/is-on/logger"
@@ -45,7 +46,8 @@ func IsOn(l *logger.Log) (bool, error) {
 		return false, errors.New("could not create a request payload")
 	}
 
-	response, err := http.Post(httpEndpoint, "application/json", bytes.NewBuffer(requestBody))
+	client := http.Client{Timeout: 5 * time.Second}
+	response, err := client.Post(httpEndpoint, "application/json", bytes.NewBuffer(requestBody))
 
 	if err != nil {
 		return false, errors.New("could not get TV response")
