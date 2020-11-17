@@ -52,7 +52,7 @@ release/%:
 		--build-arg BUILD_IMAGE=golang:1.15.5 \
 		--build-arg GOOS=linux \
 		--build-arg GOARCH=amd64 \
-		--build-arg VERSION=$(VERSION) \
+		--build-arg DOCKER_TAG=$(VERSION) \
 		--build-arg COMMAND=$* \
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION) \
@@ -68,7 +68,7 @@ release-arm32v7/%:
 		--build-arg GOOS=linux \
 		--build-arg GOARCH=arm \
 		--build-arg GOARM=7 \
-		--build-arg VERSION=$(VERSION) \
+		--build-arg DOCKER_TAG=$(VERSION) \
 		--build-arg COMMAND=$* \
 		--build-arg APP_NAME=$(APP_NAME) \
 		-t $(REGISTRY)/$(APP_NAME)-$*:$(VERSION)-arm32v7 \

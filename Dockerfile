@@ -1,6 +1,5 @@
 ARG ALPINE_IMAGE
 ARG BUILD_IMAGE
-ARG FROM_IMAGE
 
 FROM $ALPINE_IMAGE as alpine
 
@@ -21,11 +20,11 @@ ARG GOOS
 ARG GOARCH
 ARG GOARM
 ARG COMMAND
-ARG VERSION
+ARG DOCKER_TAG
 
 
 RUN CGO_ENABLED=0 go build -mod readonly -ldflags "-s -w \
-    		-X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.Tag=$VERSION" -o ./bin/$COMMAND ./cmd/$COMMAND
+    		-X github.com/Sharsie/$APP_NAME/cmd/$COMMAND/version.Tag=$DOCKER_TAG" -o ./bin/$COMMAND ./cmd/$COMMAND
 
 FROM scratch
 
