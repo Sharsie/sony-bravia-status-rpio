@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/Sharsie/tv-status-rpio/cmd/is-on/config"
+	"github.com/Sharsie/tv-status-rpio/cmd/is-on/logger"
 )
 
 type requestData struct {
@@ -27,10 +27,10 @@ type responseData struct {
 
 const statusEndpoint = "/sony/system"
 
-var httpEndpoint = config.TvHostname + statusEndpoint
+var httpEndpoint = config.TvApiURL + statusEndpoint
 
-func IsOn() (bool, error) {
-	log.Println("Getting Sony Bravia TV status.")
+func IsOn(l *logger.Log) (bool, error) {
+	l.Debug("Getting Sony Bravia TV status.")
 
 	payload := requestData{
 		"getPowerStatus",
@@ -42,13 +42,13 @@ func IsOn() (bool, error) {
 	requestBody, err := json.Marshal(payload)
 
 	if err != nil {
-		return false, errors.New("Could not create a request payload.")
+		return false, errors.New("could not create a request payload")
 	}
 
 	response, err := http.Post(httpEndpoint, "application/json", bytes.NewBuffer(requestBody))
 
 	if err != nil {
-		return false, errors.New("Could not get TV response.")
+		return false, errors.New("could not get TV response")
 	}
 
 	defer response.Body.Close()
@@ -56,7 +56,7 @@ func IsOn() (bool, error) {
 	body, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
-		return false, errors.New("Could not read the TV response.")
+		return false, errors.New("could not read the TV response")
 	}
 
 	var data responseData
@@ -64,10 +64,10 @@ func IsOn() (bool, error) {
 	err = json.Unmarshal(body, &data)
 
 	if err != nil || len(data.Result) < 1 {
-		return false, errors.New("Could not decode the TV response.")
+		return false, errors.New("could not decode the TV response")
 	}
 
-	log.Printf("The Sony Bravia TV status is '%s'.", data.Result[0].Status)
+	l.Debug("The Sony Bravia TV status is '%s'.", data.Result[0].Status)
 
 	return data.Result[0].Status == "active" || data.Result[0].Status == "activating", nil
 }

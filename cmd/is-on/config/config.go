@@ -74,10 +74,10 @@ func Duration(name string, defaultValue time.Duration, required bool) (val time.
 	return
 }
 
-var TvHostname = String("TV_HOSTNAME", "", true)
+var TvApiURL = String("TV_API_URL", "", true)
+var GPIOPinNumber = Int("GPIO_PIN_NUMBER", 0, true)
 
-var TvCheckPeriod = Duration("TV_CHECK_PERIOD", 5*time.Second, false)
-
-var TvActivePinNumber = Int("TV_ACTIVE_GPIO_NUMBER", 0, true)
+var StatusCheckPeriod = Duration("TV_STATUS_CHECK_PERIOD", 5*time.Second, false)
+var SwitchOffFailedAttemptsThreshold = Int("GPIO_SWITCH_OFF_FAILED_ATTEMPTS", 10, false)
 
 var Debug = Bool("DEBUG", false, false)

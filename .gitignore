@@ -1,5 +1,7 @@
 /bin
 /.env
+/.env.*
+!/.env.example
 
 # Do not track IDE files
 # Netbeans
