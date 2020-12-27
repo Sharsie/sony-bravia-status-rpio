@@ -47,9 +47,9 @@ docker run \
     -d \
     --restart always \
     --device /dev/mem \
-    --device /dev/gpiomem
+    --device /dev/gpiomem \
     -e TV_API_URL={HOSTNAME}\
-    -e GPIO_PIN_NUMBER={NUMBER}
+    -e GPIO_PIN_NUMBER={NUMBER} \
     docker.io/docksee/tv-status-rpio-is-on:latest-arm32v7
 ```
 
